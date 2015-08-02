@@ -21,7 +21,8 @@
 		private CertificateCloudCredentials GetCredentials(Subscription Subscription) {
 			return new CertificateCloudCredentials(
 				Subscription.SubscriptionId,
-				new X509Certificate2(Convert.FromBase64String(Subscription.ManagementCert))
+				new X509Certificate2(Convert.FromBase64String(Subscription.ManagementCert), (string)null, X509KeyStorageFlags.MachineKeySet) // Azure throws if you don't use MachineKeySet, http://stackoverflow.com/a/27146917/702931
+				// FRAGILE: Azure still throws if you're using the cert in the publishsettings file, use a self-signed cert instead, see README.md
 			);
 		}
 

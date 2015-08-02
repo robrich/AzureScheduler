@@ -20,3 +20,32 @@ Install
 
 	- LoginUsername
 	- LoginPassword
+
+*NOTE* If you're publishing this site to Azure, you can't use the certificate from the publishsettings file.  See [https://social.msdn.microsoft.com/Forums/vstudio/en-US/99ce89b8-17c8-464a-8135-9e18feb7d072/cant-use-publish-credentials-on-azure-websites?forum=windowsazurewebsitespreview](https://social.msdn.microsoft.com/Forums/vstudio/en-US/99ce89b8-17c8-464a-8135-9e18feb7d072/cant-use-publish-credentials-on-azure-websites?forum=windowsazurewebsitespreview) and [http://stackoverflow.com/questions/22030955/cant-create-new-schedules-from-azure-websites](http://stackoverflow.com/questions/22030955/cant-create-new-schedules-from-azure-websites).  Instead you'll need to:
+
+1. Create a self-signed certificate in [OpenSSL](https://www.openssl.org/docs/HOWTO/certificates.txt) or in [IIS](https://technet.microsoft.com/en-us/library/Cc753127(v=WS.10).aspx) or from various [sites](http://www.selfsignedcertificate.com/).  You can use a certificate you purchased for a website.
+
+	// http://stackoverflow.com/questions/10175812/how-to-create-a-self-signed-certificate-with-openssl
+	openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365 -nodes
+
+2. [Convert](https://www.sslshopper.com/article-most-common-openssl-commands.html) it to a cer file for the Azure portal.
+
+	// https://www.sslshopper.com/article-most-common-openssl-commands.html
+	openssl x509 -outform der -in cert.pem -out cert.cer
+
+3. [Convert](https://www.sslshopper.com/article-most-common-openssl-commands.html) it to a pfx file for this app.
+
+	// https://www.sslshopper.com/article-most-common-openssl-commands.html
+	openssl pkcs12 -export -out cert.pfx -inkey key.pem -in cert.pem
+
+4. [Upload](https://msdn.microsoft.com/en-us/library/azure/gg551722.aspx) the cer file to each subscription in the Azure Portal.
+
+	[https://manage.windowsazure.com/](https://manage.windowsazure.com/) -> Settings -> Management Certificates  -> Upload
+
+4. Base-64 encode the pfx file using C# or [si](http://base64-encoding.online-domain-tools.com/)[tes](http://www.giftofspeed.com/base64-encoder/).
+
+	// Paste this in LinqPad:
+	// http://stackoverflow.com/questions/25919387/c-sharp-converting-file-into-base64string-and-back-again
+	byte[] AsBytes = File.ReadAllBytes("cert.pfx");
+	string AsBase64String = Convert.ToBase64String(AsBytes);
+	File.WriteAllText("cert.pfx-base64-encoded.txt", AsBase64String);
