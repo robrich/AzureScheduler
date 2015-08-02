@@ -1,0 +1,150 @@
+﻿@model List<AzureInfo>
+
+@{
+	ViewBag.Title = "Azure Info";
+}
+
+@section styles {
+	<style>
+		
+	</style>
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+	<thead>
+	<tr>
+		@*<th>SubscriptionId</th>*@
+		<th>SubscriptionName</th>
+		@*<th>SubscriptionStatus</th>*@
+		<th>AzureType</th>
+		<th>Name</th>
+		<th>Status</th>
+		@*<th>CreationStatus</th>
+		<th>Online</th>*@
+		<th>Urls</th>
+		<th>Location</th>
+		@*<th>AffinityGroup</th>
+		<th>Label</th>*@
+		<th>TypeDescription</th>
+		@*<th>Uri</th>*@
+		<th>MaxSizeGb</th>
+		@*<th>HostedServiceName</th>
+		<th>DeploymentName</th>
+		<th>VirtualMachineName</th>*@
+		<th>Redundancy</th>
+		<th>ServerName</th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (AzureInfo info in Model) {
+		<tr data-subscriptionid="@info.SubscriptionId" data-online="@info.Online.ToString().ToLowerInvariant()">
+			@*<td>@info.SubscriptionId</td>*@
+			<td>@info.SubscriptionName</td>
+			@*<td>@info.SubscriptionStatus</td>*@
+			<td><img src="/img/old/@(info.AzureType).png" alt="@info.AzureType" title="@info.AzureType"/></td>
+			<td>@info.Name</td>
+			<td>
+				@switch (info.AzureType) {
+					case AzureType.VirtualMachine:
+						@: <a href="#" data-name="@info.Name" class="VMControl">@info.Status</a>
+						break;
+					case AzureType.WebApp:
+						@: <a href="#" data-location="@info.Location" data-name="@info.Name" class="WebAppControl">@info.Status</a>
+						break;
+					default:
+						@: @info.Status
+						break;
+				}
+			</td>
+			@*<td>@info.CreationStatus</td>
+			<td>@info.Online</td>*@
+			<td>
+				@if (info.Urls != null) {
+					foreach (string url in info.Urls) {
+						 @: @url<br/>
+					}
+				}
+			</td>
+			<td>@info.Location</td>
+			@*<td>@info.AffinityGroup</td>
+			<td>@info.Label</td>*@
+			<td>@info.TypeDescription</td>
+			@*<td>@info.Uri</td>*@
+			<td>
+				@if (info.MaxSizeGb != 0) {
+					@: @info.MaxSizeGb gb
+				}
+			</td>
+			@*<td>@info.HostedServiceName</td>
+			<td>@info.DeploymentName</td>
+			<td>@info.VirtualMachineName</td>*@
+			<td>@info.Redundancy</td>
+			<td>@info.ServerName</td>
+		</tr>
+	}
+	</tbody>
+</table>
+
+@section scripts {
+	<script>
+		$(document).ready(function () {
+			$('.VMControl').click(function (e) {
+				if (e.button !== 0) {
+					return; // not left-click
+				}
+				e.preventDefault();
+
+				var that = $(this);
+				var tr = that.closest('tr');
+
+				var name = that.data('name');
+				var subscriptionid = tr.data('subscriptionid');
+				var online = Boolean(tr.data('online'));
+				var newOnline = !online;
+
+				if (newOnline) {
+					that.text('Starting...');
+				} else {
+					that.text('Stopping...');
+				}
+
+				$.post('@Url.Action("SetVm")', { SubscriptionId: subscriptionid, VmName: name, SetToRunning: newOnline }, function (r) {
+					that.text(r.Status);
+					tr.data('online', newOnline);
+				});
+
+			});
+
+			$('.WebAppControl').click(function (e) {
+				if (e.button !== 0) {
+					return; // not left-click
+				}
+				e.preventDefault();
+
+				var that = $(this);
+				var tr = that.closest('tr');
+
+				var name = that.data('name');
+				var location = that.data('location');
+				var subscriptionid = tr.data('subscriptionid');
+				var online = Boolean(tr.data('online'));
+				var newOnline = !online;
+
+				if (newOnline) {
+					that.text('Starting...');
+				} else {
+					that.text('Stopping...');
+				}
+
+				$.post('@Url.Action("SetWebApp")', { SubscriptionId: subscriptionid, Location: location, SiteName: name, SetToRunning: newOnline }, function (r) {
+					that.text(r.Status);
+					tr.data('online', newOnline);
+				});
+
+			});
+
+		});
+	</script>
+}

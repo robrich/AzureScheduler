@@ -1,0 +1,9 @@
+﻿{
+  "$schema": "http://schemastore.org/schemas/json/webjob-publish-settings.json",
+  "webJobName": "Stopper",
+  "startTime": "2015-08-02T00:00:00-07:00",
+  "endTime": null,
+  "jobRecurrenceFrequency": "Day",
+  "interval": 1,
+  "runMode": "Scheduled"
+}
