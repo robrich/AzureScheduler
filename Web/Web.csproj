@@ -190,6 +190,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="img\new\SqlDatabase.png" />
+    <Content Include="img\new\Storage.png" />
+    <Content Include="img\new\VirtualDisk.png" />
+    <Content Include="img\new\VirtualMachine.png" />
+    <Content Include="img\new\WebApp.png" />
+    <Content Include="img\old\SqlDatabase.png" />
+    <Content Include="img\old\Storage.png" />
+    <Content Include="img\old\VirtualDisk.png" />
+    <Content Include="img\old\VirtualMachine.png" />
+    <Content Include="img\old\WebApp.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Properties\webjobs-list.json" />
@@ -214,7 +224,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="img\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
