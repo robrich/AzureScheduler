@@ -103,6 +103,7 @@
 				var subscriptionid = tr.data('subscriptionid');
 				var online = Boolean(tr.data('online'));
 				var newOnline = !online;
+				var oldStatus = that.text();
 
 				if (newOnline) {
 					that.text('Starting...');
@@ -111,6 +112,11 @@
 				}
 
 				$.post('@Url.Action("SetVm")', { SubscriptionId: subscriptionid, VmName: name, SetToRunning: newOnline }, function (r) {
+					if (!r.Success) {
+						that.text(oldStatus || '');
+						alert(r.Message);
+						return;
+					}
 					that.text(r.Status);
 					tr.data('online', newOnline);
 				});
@@ -131,6 +137,7 @@
 				var subscriptionid = tr.data('subscriptionid');
 				var online = Boolean(tr.data('online'));
 				var newOnline = !online;
+				var oldStatus = that.text();
 
 				if (newOnline) {
 					that.text('Starting...');
@@ -139,6 +146,11 @@
 				}
 
 				$.post('@Url.Action("SetWebApp")', { SubscriptionId: subscriptionid, Location: location, SiteName: name, SetToRunning: newOnline }, function (r) {
+					if (!r.Success) {
+						that.text(oldStatus || '');
+						alert(r.Message);
+						return;
+					}
 					that.text(r.Status);
 					tr.data('online', newOnline);
 				});

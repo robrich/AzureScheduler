@@ -1,4 +1,5 @@
 ﻿namespace AzureScheduler.Web.Controllers {
+	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Web.Mvc;
@@ -36,18 +37,26 @@
 
 		public ActionResult SetWebApp(string SubscriptionId, string Location, string SiteName, bool SetToRunning) {
 
-			Subscription subscription = this.subscriptionRepository.GetSubscription(SubscriptionId);
-			string newStatus = this.azureRepository.SetWebApp(subscription, Location, SiteName, SetToRunning);
+			try {
+				Subscription subscription = this.subscriptionRepository.GetSubscription(SubscriptionId);
+				string newStatus = this.azureRepository.SetWebApp(subscription, Location, SiteName, SetToRunning);
 
-			return this.Json(new { Success = true, Status = newStatus });
+				return this.Json(new {Success = true, Status = newStatus});
+			} catch (Exception ex) {
+				return this.Json(new {Success = false, Message = ex.Message});
+			}
 		}
 
 		public ActionResult SetVm(string SubscriptionId, string VmName, bool SetToRunning) {
 
-			Subscription subscription = this.subscriptionRepository.GetSubscription(SubscriptionId);
-			string newStatus = this.azureRepository.SetVm(subscription, VmName, SetToRunning);
+			try {
+				Subscription subscription = this.subscriptionRepository.GetSubscription(SubscriptionId);
+				string newStatus = this.azureRepository.SetVm(subscription, VmName, SetToRunning);
 
-			return this.Json(new { Success = true, Status = newStatus });
+				return this.Json(new {Success = true, Status = newStatus});
+			} catch (Exception ex) {
+				return this.Json(new {Success = false, Message = ex.Message});
+			}
 		}
 
 	}
