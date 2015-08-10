@@ -17,11 +17,23 @@
 				string subscriptionId = ConfigurationManager.AppSettings["SubscriptionId" + i];
 				string managementCert = ConfigurationManager.AppSettings["ManagementCert" + i]; // TODO: store certs in Azure as certs rather than app settings, see http://azure.microsoft.com/blog/2014/10/27/using-certificates-in-azure-websites-applications/
 				if (!string.IsNullOrEmpty(subscriptionId) && !string.IsNullOrEmpty(managementCert)) {
-					results.Add(new Subscription {SubscriptionId = subscriptionId, ManagementCert = managementCert});
+					results.Add(new Subscription {
+						Sequence = i,
+						SubscriptionId = subscriptionId,
+						ManagementCert = managementCert
+					});
 				}
 			}
 
 			return results;
+		}
+
+		public Subscription GetSubscriptionSequence(int Sequence) {
+			return (
+				from s in this.GetSubscriptions()
+				where s.Sequence == Sequence
+				select s
+			).FirstOrDefault();
 		}
 
 		public Subscription GetSubscription(string SubscriptionId) {

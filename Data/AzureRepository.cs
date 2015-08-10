@@ -19,11 +19,16 @@
 	public class AzureRepository {
 
 		private CertificateCloudCredentials GetCredentials(Subscription Subscription) {
-			return new CertificateCloudCredentials(
-				Subscription.SubscriptionId,
-				new X509Certificate2(Convert.FromBase64String(Subscription.ManagementCert), (string)null, X509KeyStorageFlags.MachineKeySet) // Azure throws if you don't use MachineKeySet, http://stackoverflow.com/a/27146917/702931
+			try {
+				return new CertificateCloudCredentials(
+					Subscription.SubscriptionId,
+					new X509Certificate2(Convert.FromBase64String(Subscription.ManagementCert), (string)null, X509KeyStorageFlags.MachineKeySet)
+				);
+				// Azure throws if you don't use MachineKeySet, http://stackoverflow.com/a/27146917/702931
 				// FRAGILE: Azure still throws if you're using the cert in the publishsettings file, use a self-signed cert instead, see README.md
-			);
+			} catch (Exception ex) {
+				throw new Exception("Error getting certificate for " + Subscription.SubscriptionId + ": " + ex.Message);
+			}
 		}
 
 		// Enumerating services, from http://www.scip.be/index.php?Page=ArticlesNET39&Lang=EN

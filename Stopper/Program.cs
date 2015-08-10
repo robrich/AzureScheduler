@@ -1,4 +1,5 @@
 ﻿namespace AzureScheduler.Stopper {
+	using System;
 	using System.Configuration;
 	using AzureScheduler.Data;
 	using AzureScheduler.Data.Models;
@@ -13,12 +14,15 @@
 		}
 
 		// TODO: move these to AppSettings?
-		const string subscriptionName = "subscription1";
+		const int sequence = 2;
 		const string vmName = "richardsonbuild";
 
 		public static void Main(string[] args) {
 
-			Subscription subscription = subscriptionRepository.GetSubscription(ConfigurationManager.AppSettings[subscriptionName]);
+			Subscription subscription = subscriptionRepository.GetSubscriptionSequence(sequence);
+			if (subscription == null) {
+				throw new ArgumentException("Subscription sequence " + sequence + " is null");
+			}
 			azureRepository.SetVm(subscription, vmName, SetToRunning: false);
 
 		}
