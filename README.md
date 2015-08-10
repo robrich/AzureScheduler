@@ -21,7 +21,10 @@ Install
 	- LoginUsername
 	- LoginPassword
 
-*NOTE* If you're publishing this site to Azure, you can't use the certificate from the publishsettings file.  See [https://social.msdn.microsoft.com/Forums/vstudio/en-US/99ce89b8-17c8-464a-8135-9e18feb7d072/cant-use-publish-credentials-on-azure-websites?forum=windowsazurewebsitespreview](https://social.msdn.microsoft.com/Forums/vstudio/en-US/99ce89b8-17c8-464a-8135-9e18feb7d072/cant-use-publish-credentials-on-azure-websites?forum=windowsazurewebsitespreview) and [http://stackoverflow.com/questions/22030955/cant-create-new-schedules-from-azure-websites](http://stackoverflow.com/questions/22030955/cant-create-new-schedules-from-azure-websites).  Instead you'll need to:
+4. Adjust the schedules and content for starter and stopper projects.  Currently stopper is set to run at 7 am and starter is not set to run at all.
+
+
+**NOTE**: If you're publishing this site to Azure, you can't use the certificate from the publishsettings file.  See [https://social.msdn.microsoft.com/Forums/vstudio/en-US/99ce89b8-17c8-464a-8135-9e18feb7d072/cant-use-publish-credentials-on-azure-websites?forum=windowsazurewebsitespreview](https://social.msdn.microsoft.com/Forums/vstudio/en-US/99ce89b8-17c8-464a-8135-9e18feb7d072/cant-use-publish-credentials-on-azure-websites?forum=windowsazurewebsitespreview) and [http://stackoverflow.com/questions/22030955/cant-create-new-schedules-from-azure-websites](http://stackoverflow.com/questions/22030955/cant-create-new-schedules-from-azure-websites).  Instead you'll need to:
 
 1. Create a self-signed certificate in [OpenSSL](https://www.openssl.org/docs/HOWTO/certificates.txt) or in [IIS](https://technet.microsoft.com/en-us/library/Cc753127(v=WS.10).aspx) or from various [sites](http://www.selfsignedcertificate.com/).  You can use a certificate you purchased for a website.
 
@@ -49,3 +52,5 @@ Install
 	byte[] AsBytes = File.ReadAllBytes("cert.pfx");
 	string AsBase64String = Convert.ToBase64String(AsBytes);
 	File.WriteAllText("cert.pfx-base64-encoded.txt", AsBase64String);
+
+**NOTE**: Azure Git Deploy [ignores](http://stackoverflow.com/questions/27158266/scheduled-azure-webjob-deployed-via-git-results-in-on-demand-job) the webjob-publish-settings.json file that contains the schedule.  Either publish through Visual Studio or create a `settings.job` file that contains the schedule.  See [http://blog.amitapple.com/post/2015/06/scheduling-azure-webjobs/#.VZWmh_lVhBc](http://blog.amitapple.com/post/2015/06/scheduling-azure-webjobs/#.VZWmh_lVhBc).  Re-deploying the webjob doesn't change the schedule, but once you have the job set as a scheduled job, you can modify the schedule through the Azure portal.
