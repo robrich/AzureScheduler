@@ -12,8 +12,10 @@ Install
 
 	- subscriptionId1
 	- managementCert1
+	- managementCertPassword1
 	- subscriptionId2
 	- managementCert2
+	- managementCertPassword2
 	- etc
 
 3. Set AppSettings for site authentication in the Azure portal (NOT the code), read by HomeController:
@@ -25,6 +27,7 @@ Install
 
 
 **NOTE**: If you're publishing this site to Azure, you can't use the certificate from the publishsettings file.  See [https://social.msdn.microsoft.com/Forums/vstudio/en-US/99ce89b8-17c8-464a-8135-9e18feb7d072/cant-use-publish-credentials-on-azure-websites?forum=windowsazurewebsitespreview](https://social.msdn.microsoft.com/Forums/vstudio/en-US/99ce89b8-17c8-464a-8135-9e18feb7d072/cant-use-publish-credentials-on-azure-websites?forum=windowsazurewebsitespreview) and [http://stackoverflow.com/questions/22030955/cant-create-new-schedules-from-azure-websites](http://stackoverflow.com/questions/22030955/cant-create-new-schedules-from-azure-websites).  Instead you'll need to:
+**NOTE**: If you're publishing this site to Azure, and you are using a certificate following the below instructions, be sure to use the same password as the one during the pfx file generation process
 
 1. Create a self-signed certificate in [OpenSSL](https://www.openssl.org/docs/HOWTO/certificates.txt) or in [IIS](https://technet.microsoft.com/en-us/library/Cc753127(v=WS.10).aspx) or from various [sites](http://www.selfsignedcertificate.com/).  You can use a certificate you purchased for a website.
 
@@ -36,7 +39,7 @@ Install
 	// https://www.sslshopper.com/article-most-common-openssl-commands.html
 	openssl x509 -outform der -in cert.pem -out cert.cer
 
-3. [Convert](https://www.sslshopper.com/article-most-common-openssl-commands.html) it to a pfx file for this app.
+3. [Convert](https://www.sslshopper.com/article-most-common-openssl-commands.html) it to a pfx file for this app. You must use a password during the export phase. This password will be necessary during the certificate upload to Azure Web site.
 
 	// https://www.sslshopper.com/article-most-common-openssl-commands.html
 	openssl pkcs12 -export -out cert.pfx -inkey key.pem -in cert.pem
