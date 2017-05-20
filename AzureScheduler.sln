@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26510.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{621CAE17-4435-4623-8508-0D002C155151}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stopper", "Stopper\Stopper.csproj", "{99424CF7-D276-44A1-A414-5843276C6402}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter", "Starter\Starter.csproj", "{4C0C0BC3-DBBB-44DC-B284-39B45851C528}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHooks", "WebHooks\WebHooks.csproj", "{4FFA00BB-F794-4B1A-A8F8-2329BDC16B08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{4C0C0BC3-DBBB-44DC-B284-39B45851C528}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C0C0BC3-DBBB-44DC-B284-39B45851C528}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C0C0BC3-DBBB-44DC-B284-39B45851C528}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FFA00BB-F794-4B1A-A8F8-2329BDC16B08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FFA00BB-F794-4B1A-A8F8-2329BDC16B08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FFA00BB-F794-4B1A-A8F8-2329BDC16B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FFA00BB-F794-4B1A-A8F8-2329BDC16B08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
