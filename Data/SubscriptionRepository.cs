@@ -15,12 +15,15 @@
 
 			for (int i = 1; i < 10; i++) {
 				string subscriptionId = ConfigurationManager.AppSettings["SubscriptionId" + i];
-				string managementCert = ConfigurationManager.AppSettings["ManagementCert" + i]; // TODO: store certs in Azure as certs rather than app settings, see http://azure.microsoft.com/blog/2014/10/27/using-certificates-in-azure-websites-applications/
+				// TODO: store certs in Azure as certs rather than app settings, see http://azure.microsoft.com/blog/2014/10/27/using-certificates-in-azure-websites-applications/
+				string managementCert = ConfigurationManager.AppSettings["ManagementCert" + i];
+				string managementCertPassword = ConfigurationManager.AppSettings["ManagementCertPassword" + i];
 				if (!string.IsNullOrEmpty(subscriptionId) && !string.IsNullOrEmpty(managementCert)) {
 					results.Add(new Subscription {
 						Sequence = i,
 						SubscriptionId = subscriptionId,
-						ManagementCert = managementCert
+						ManagementCert = managementCert,
+						ManagementCertPassword = managementCertPassword
 					});
 				}
 			}

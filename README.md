@@ -12,8 +12,10 @@ Install
 
 	- subscriptionId1
 	- managementCert1
+	- managementCertPassword1
 	- subscriptionId2
 	- managementCert2
+	- managementCertPassword2
 	- etc
 
 3. Set AppSettings for site authentication in the Azure portal (NOT the code), read by HomeController:
@@ -36,7 +38,7 @@ Install
 	// https://www.sslshopper.com/article-most-common-openssl-commands.html
 	openssl x509 -outform der -in cert.pem -out cert.cer
 
-3. [Convert](https://www.sslshopper.com/article-most-common-openssl-commands.html) it to a pfx file for this app.
+3. [Convert](https://www.sslshopper.com/article-most-common-openssl-commands.html) it to a pfx file for this app. You must answer the password prompt, but this password can be blank.
 
 	// https://www.sslshopper.com/article-most-common-openssl-commands.html
 	openssl pkcs12 -export -out cert.pfx -inkey key.pem -in cert.pem
